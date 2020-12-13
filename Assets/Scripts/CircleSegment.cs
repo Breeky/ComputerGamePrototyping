@@ -124,7 +124,7 @@ public class CircleSegment : MonoBehaviour
                     } else if (!collision_handled) {
 
                         // Loop on all segments (layer) of the current slice to find the uncolored segment that is the closest one
-                        for (int i = gameManager.nLayer - 2; i >= 1; i--) {
+                        for (int i = gameManager.nLayer - 2; i >= 0; i--) {
                             if (!collision_handled && circleSegmentManager.segmentsOrdered[_slice, i].GetColor() != gameManager.segmentColors[0]) {
                                 
                                 // Handle the collision immediately if it has too
