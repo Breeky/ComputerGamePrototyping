@@ -34,17 +34,15 @@ public class Spawner : MonoBehaviour
     }
 
     //Generate new feathers
-    void OnTriggerExit2D(Collider2D col)
+    public void Spawn()
     {
-        if (col.gameObject.name == "Follower")
-        {
-            indexColorToSpawn = Random.Range(1, colors.Length);
+        indexColorToSpawn = Random.Range(1, colors.Length);
             
-            if(Random.Range(0.0f, 1.0f) > probEmpty)
-            {
-                spawnItem.GetComponent<SpriteRenderer>().color = colors[indexColorToSpawn];
-                itemAttached = GameObject.Instantiate(spawnItem, transform.position, Quaternion.identity);
-            }
+        if(true)//Random.Range(0.0f, 1.0f) > probEmpty)
+        {
+            spawnItem.GetComponent<SpriteRenderer>().color = colors[indexColorToSpawn];
+            itemAttached = GameObject.Instantiate(spawnItem, transform.position, Quaternion.identity);
         }
+        
     }
 }

@@ -19,4 +19,14 @@
 		<fillingMode value="normal"/>
 		<player enableGravity="true" gravity="2000" jumpForce="5000" speed="2" throwForce="2"/>
 	</level>
+	
+	<level name="level2">
+		<nLayer value="6"/>
+		<nSlice value="6"/>
+		<numberLane value="6"/>
+		<heightFilling value="1"/>
+		<probabilityBlackLastLayer value="3"/>
+		<fillingMode value="normal"/>
+		<player enableGravity="true" gravity="2000" jumpForce="5000" speed="2" throwForce="2"/>
+	</level>
 </levels>

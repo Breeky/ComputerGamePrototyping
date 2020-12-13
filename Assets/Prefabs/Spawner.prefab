@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4238707408042598415}
   m_Layer: 0
   m_Name: Spawner
-  m_TagString: Untagged
+  m_TagString: Spawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,6 +114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colors: []
+  probEmpty: 0.3
   spawnItem: {fileID: 8903711115931551040, guid: adbed0e56fd3f28489445a1db2de63c4,
     type: 3}
 --- !u!50 &4238707408042598415

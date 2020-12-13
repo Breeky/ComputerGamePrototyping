@@ -15,8 +15,8 @@ public class CircleSegmentManager : MonoBehaviour
     [SerializeField] private GameObject lineSegmentPrefab;
     [SerializeField] private GameObject circleSegmentPrefab;
     [SerializeField] private GameObject spawnerPrefab;
-   
-    
+    [SerializeField] private GameObject spawnerSegmentPrefab;
+
     public Color[,] colorBlocks; // Array to keep track of the color by slice and layer
     public CircleSegment[,] segmentsOrdered; // Array to access segments by slice and layer
     private List<float> lanesDist; // To store domain for each lane
@@ -31,7 +31,7 @@ public class CircleSegmentManager : MonoBehaviour
     // In GameManager
     private GameObject planetTop;
     private GameObject planetCore;
-    private int numberLane = 3; // Number of lanes to play with
+    private int numberLane; // Number of lanes to play with
     private TextMeshProUGUI gameOverText;
     private int nLayer;
     private int nSlice;
@@ -110,14 +110,22 @@ public class CircleSegmentManager : MonoBehaviour
                 0f
                 ));
 
-            //Instantiate a line of spawners
+            //Instantiate a line of spawners, with a SpawnerSegment on laneDist[0]
+
+            Vector3 spawnPosition = new Vector3(
+               lanesDist[0] * Mathf.Cos((float)(angle + unitAngle / 2)),
+               lanesDist[0] * Mathf.Sin((float)(angle + unitAngle / 2)),
+               0f);
+            GameObject spawnerSegment = Instantiate(spawnerSegmentPrefab, spawnPosition, Quaternion.identity);
+
             foreach (float dist in lanesDist)
             {
-                Vector3 spawnPosition = new Vector3(
+                spawnPosition = new Vector3(
                 dist * Mathf.Cos((float)(angle + unitAngle/2)),
                 dist * Mathf.Sin((float)(angle + unitAngle / 2)),
                 0f);
-                Instantiate(spawnerPrefab, spawnPosition, Quaternion.identity);
+                GameObject newSpawner = Instantiate(spawnerPrefab, spawnPosition, Quaternion.identity);
+                newSpawner.transform.parent = spawnerSegment.transform;
             }
         }
     }

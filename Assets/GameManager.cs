@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     public GameObject planetTop;
     public GameObject planetCore;
     public GameObject projectile;
+    public GameObject follower;
     public GameObject maskUI;
     public TextMeshProUGUI gameOverText;
     public TextMeshProUGUI gameWonText;
@@ -123,25 +124,11 @@ public class GameManager : MonoBehaviour
         lifePoints = lifePoints - 1;
         CircleSegmentManager _circleSegmentManager = GameObject.Find("Planet Bottom").GetComponent<CircleSegmentManager>();
 
-        if (lifePoints == 2){
-            // Update some variables 
-
-            // Update sprites
-            
-
-            // Reinitialize level
-            //_circleSegmentManager.Init();
-        }
-        else if (lifePoints == 1){
-            // Update some variables 
-
-            // Update sprites 
-
-            // Reinitialize level
-            //_circleSegmentManager.Init();
-
-        } else if (lifePoints == 0){
+        if (lifePoints == 0){
             PlayerWins();
+        }
+        else {
+            // Reset level
         }
     }
 
