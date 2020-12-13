@@ -35,6 +35,7 @@ public class PlanetCoreGFX : MonoBehaviour
             new GradientAlphaKey[] { new GradientAlphaKey(alpha, 1.0f), new GradientAlphaKey(alpha, 1.0f) }
         );
         lineRenderer.colorGradient = gradient;
+        lineRenderer.sortingOrder = 101;
     }
 
     private void Update()
