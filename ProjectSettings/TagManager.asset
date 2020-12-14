@@ -8,6 +8,9 @@ TagManager:
   - GameManager
   - ProjectileRemovable
   - Spawner
+  - newSpawner
+  - spawnerSegment
+  - segment
   layers:
   - Default
   - TransparentFX

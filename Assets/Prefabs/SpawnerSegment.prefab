@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6095378727107747926}
   m_Layer: 0
   m_Name: SpawnerSegment
-  m_TagString: Untagged
+  m_TagString: spawnerSegment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a3607f1cbde3704db7ff631e692eb3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawners: []
 --- !u!50 &5332247072909561464
 Rigidbody2D:
   serializedVersion: 4

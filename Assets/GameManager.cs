@@ -128,7 +128,11 @@ public class GameManager : MonoBehaviour
             PlayerWins();
         }
         else {
-            // Reset level
+            // Increase some variables
+            speed += 0.5f;
+
+            // Reset puzzle
+            _circleSegmentManager.reInit();
         }
     }
 

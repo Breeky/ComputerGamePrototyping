@@ -38,7 +38,6 @@ public class CircleSegmentManager : MonoBehaviour
 
     private Color[] segmentColors; //Convention: first color = "empty" color (Black by default)
 
-
     /* -------------------------------------------------------------------------------------------------------------------------------------------- 
     -------------------------------------------------- Creating the puzzle game -------------------------------------------------------------------
     -------------------------------------------------------------------------------------------------------------------------------------------- */
@@ -46,13 +45,6 @@ public class CircleSegmentManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Init();
-
-    }
-
-
-    public void Init()
-    {   
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         lanesDist = new List<float>();
 
@@ -70,6 +62,30 @@ public class CircleSegmentManager : MonoBehaviour
         GenerateCircleSegments();
         GenerateLineSegmentAndSpawners();
         GenerateCircleDelimiter();
+
+    }
+
+
+    public void reInit()
+    {
+        GameObject[] segmentsPrefab = GameObject.FindGameObjectsWithTag("segment");
+        for(int i=0; i< segmentsPrefab.Length; i++){GameObject.Destroy(segmentsPrefab[i]);}
+
+        // Init them again
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        lanesDist = new List<float>();
+        nLayer = gameManager.nLayer;
+        nSlice = gameManager.nSlice;
+        segmentColors = gameManager.segmentColors;
+        heightFilling = gameManager.heightFilling;
+        probabilityBlackLastLayer = gameManager.probabilityBlackLastLayer;
+        fillingMode = gameManager.fillingMode;
+        planetTop = gameManager.planetTop;
+        planetCore = gameManager.planetCore;
+        numberLane = gameManager.numberLane;
+        gameOverText = gameManager.gameOverText;
+
+        GenerateCircleSegments();
     }
 
     private void GenerateCircleDelimiter()
@@ -117,6 +133,7 @@ public class CircleSegmentManager : MonoBehaviour
                lanesDist[0] * Mathf.Sin((float)(angle + unitAngle / 2)),
                0f);
             GameObject spawnerSegment = Instantiate(spawnerSegmentPrefab, spawnPosition, Quaternion.identity);
+           
 
             foreach (float dist in lanesDist)
             {
@@ -179,7 +196,8 @@ public class CircleSegmentManager : MonoBehaviour
                 // Color
                 // renderer.color = segmentColors[order % segmentColors.Length]; // Replace by a better chosen color
                 circleSegment.ChangeColor(colorMapping[j,i], false);
-                colorBlocks[j,i] = renderer.color; // Update color 
+                colorBlocks[j,i] = colorMapping[j,i]; // Update color 
+                colorBlocks[j,i] = colorBlocks[j,i];
 
                 order -= 1;
 
