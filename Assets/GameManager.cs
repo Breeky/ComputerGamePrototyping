@@ -65,6 +65,14 @@ public class GameManager : MonoBehaviour
         Dictionary<string, string> level = levels[levelChosen];
         nSlice = int.Parse(level["nSlice"]);
         nLayer = int.Parse(level["nLayer"]);
+        numberLane = int.Parse(level["numberLane"]);
+        heightFilling = int.Parse(level["heightFilling"]);
+        fillingMode = level["fillingMode"];
+        enableGravity = Convert.ToBoolean(int.Parse(level["enableGravity"]));
+        gravity = int.Parse(level["gravity"]);
+        jumpForce = int.Parse(level["jumpForce"]);
+        speed = float.Parse(level["speed"]);
+        throwForce = int.Parse(level["throwForce"]);
     }
 
     // Start is called before the first frame update

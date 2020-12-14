@@ -491,6 +491,7 @@ MonoBehaviour:
   - {r: 0, g: 0.7813556, b: 1, a: 1}
   - {r: 1, g: 0.33602917, b: 0, a: 1}
   - {r: 0.9078951, g: 0, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0.28233767, a: 1}
   heightFilling: 5
   probabilityBlackLastLayer: 3
   fillingMode: normal
@@ -821,9 +822,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.8290123, y: 0}
   serializedVersion: 2
-  m_Radius: 3.5799997
+  m_Radius: 2.1480699
 --- !u!212 &313005478
 SpriteRenderer:
   m_ObjectHideFlags: 0
