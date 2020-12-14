@@ -1,0 +1,107 @@
+#N canvas -270 56 1540 777 10;
+#X obj 843 56 dumpOSC 2000;
+#X obj 843 203 OSCroute /playSound;
+#X text 836 34 Network listener;
+#X obj 762 586 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 802 585 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 755 568 STOP;
+#X text 789 568 START;
+#X text 878 182 Sounds;
+#X obj 855 84 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 731 231 print message:;
+#X obj 725 322 list;
+#X floatatom 725 297 5 0 0 0 - - -;
+#X obj 725 271 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 800 529 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 762 611 readsound_v2_0;
+#X obj 1025 586 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 1065 585 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 1018 568 STOP;
+#X text 1052 568 START;
+#X obj 1063 529 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 900 586 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 940 585 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 893 568 STOP;
+#X text 927 568 START;
+#X obj 938 529 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 1902 2 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 843 419 route 0 1 2;
+#X obj 900 611 readsound_v2_1;
+#X obj 1025 611 readsound_v2_2;
+#X obj 801 549 delay 1;
+#X obj 940 549 delay 1;
+#X obj 1064 549 delay 1;
+#X text 849 387 Route Used to switch between players \, to enable multiple
+sounds played at the same time;
+#X text 1449 191 Music;
+#X obj 1414 213 OSCroute /playMusic;
+#X obj 1335 327 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 1383 326 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 1328 309 STOP;
+#X text 1375 310 START;
+#X obj 1387 270 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 1388 290 delay 1;
+#X obj 1364 352 readmusic;
+#X obj 1510 338 print message:;
+#X obj 453 204 OSCroute /stop;
+#X text 479 183 Stop all;
+#X obj 453 234 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 348 234 print stop:;
+#X text 1391 309;
+#X connect 0 0 1 0;
+#X connect 0 0 8 0;
+#X connect 0 0 34 0;
+#X connect 0 0 43 0;
+#X connect 1 0 9 0;
+#X connect 1 0 10 1;
+#X connect 1 0 12 0;
+#X connect 1 0 26 0;
+#X connect 3 0 14 0;
+#X connect 4 0 14 1;
+#X connect 11 0 10 0;
+#X connect 12 0 11 0;
+#X connect 13 0 29 0;
+#X connect 15 0 28 0;
+#X connect 16 0 28 1;
+#X connect 19 0 31 0;
+#X connect 20 0 27 0;
+#X connect 21 0 27 1;
+#X connect 24 0 30 0;
+#X connect 26 0 13 0;
+#X connect 26 0 14 2;
+#X connect 26 1 24 0;
+#X connect 26 1 27 2;
+#X connect 26 2 19 0;
+#X connect 26 2 28 2;
+#X connect 29 0 4 0;
+#X connect 30 0 21 0;
+#X connect 31 0 16 0;
+#X connect 34 0 39 0;
+#X connect 34 0 41 2;
+#X connect 34 0 42 0;
+#X connect 35 0 41 0;
+#X connect 36 0 41 1;
+#X connect 39 0 40 0;
+#X connect 40 0 36 0;
+#X connect 43 0 3 0;
+#X connect 43 0 20 0;
+#X connect 43 0 15 0;
+#X connect 43 0 35 0;
+#X connect 43 0 45 0;
+#X connect 43 0 46 0;
