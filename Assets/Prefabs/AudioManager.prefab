@@ -97,6 +97,26 @@ MonoBehaviour:
     absolutePath: click2.wav
     volume: 1
     pitch: 1
+  - soundName: AchievementBell
+    absolutePath: mixkit-achievement-bell-600.wav
+    volume: 1
+    pitch: 1
+  - soundName: Punch
+    absolutePath: cartoon-punch.wav
+    volume: 1
+    pitch: 1
+  - soundName: Lose
+    absolutePath: casual-game-lose-sound-effect-45947266.wav
+    volume: 1
+    pitch: 1
+  - soundName: Win
+    absolutePath: mixkit-ethereal-fairy-win-sound-2019.wav
+    volume: 1
+    pitch: 1
+  - soundName: Pause
+    absolutePath: pause.wav
+    volume: 1
+    pitch: 1
   musics:
   - soundName: Potato
     absolutePath: Potato.wav
@@ -106,5 +126,6 @@ MonoBehaviour:
     absolutePath: Chunky_Monkey.wav
     volume: 0.804
     pitch: 1
+  _transmitter: {fileID: 2451511138278923016}
   currentIndex: 0
   maxIndex: 2

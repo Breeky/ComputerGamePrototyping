@@ -33,8 +33,10 @@ public class GameManager : MonoBehaviour
     public GameObject projectile;
     public GameObject follower;
     public GameObject maskUI;
-    public TextMeshProUGUI gameOverText;
-    public TextMeshProUGUI gameWonText;
+    public GameObject gameOverText;
+    public GameObject gameWonText;
+    public GameObject gamePausedText;
+    public CameraController cameraController;
 
     //Variables from PlayerController.cs
     [Header("Player")]
@@ -50,12 +52,11 @@ public class GameManager : MonoBehaviour
     
     // EndGame
     private bool _gameOver; // true if win or lose
-    
+    private bool _gamePaused;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        Time.timeScale = 1f;
+        levelChosen = GameConfig.Level;
         
         GetLevel();
 
@@ -63,6 +64,13 @@ public class GameManager : MonoBehaviour
         Dictionary<string, string> level = levels[levelChosen];
         nSlice = int.Parse(level["nSlice"]);
         nLayer = int.Parse(level["nLayer"]);
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        Time.timeScale = 1f;
+        StartCoroutine(nameof(LateStart));
 
         /*
         foreach (string key in levels[0].Keys)
@@ -72,14 +80,34 @@ public class GameManager : MonoBehaviour
         */
     }
 
+    IEnumerator LateStart() 
+    {
+        yield return new WaitForSeconds(0.1f);
+        FindObjectOfType<AudioManager>().PlayMusic("Potato");
+    }
+
     private void Update()
     {
+        // Pause & Resume game
+        if (Input.GetKeyDown(KeyCode.Escape) && !_gameOver)
+        {
+            PauseGame();
+        }
+        
+        // Resume game
+        if (Input.GetKeyDown(KeyCode.Space) && _gamePaused && !_gameOver)
+        {
+            PauseGame();
+        }
+
+        // Restart game
         if (Input.GetKeyDown(KeyCode.Space) && _gameOver)
         {
             SceneManager.LoadScene(1);
         }
 
-        if (Input.GetKeyDown(KeyCode.Backspace) && _gameOver)
+        // Return to main menu
+        if (Input.GetKeyDown(KeyCode.Q) && (_gameOver || _gamePaused))
         {
             SceneManager.LoadScene(0);
         }
@@ -128,6 +156,10 @@ public class GameManager : MonoBehaviour
             PlayerWins();
         }
         else {
+            // Animation
+            cameraController.MediumShake();
+            FindObjectOfType<AudioManager>().PlaySound("Punch");
+            
             // Increase some variables
             speed += 0.5f;
 
@@ -139,18 +171,44 @@ public class GameManager : MonoBehaviour
 
     // Win
     public void PlayerWins(){
+        FindObjectOfType<AudioManager>().StopSounds();
+        FindObjectOfType<AudioManager>().PlaySound("Win");
         Time.timeScale = 0; // Stop game
         maskUI.SetActive(true);
-        gameWonText.gameObject.SetActive(true); // Pop a end menu instead of this
+        gameWonText.SetActive(true); // Pop a end menu instead of this
         _gameOver = true;
     }
 
     // Game Over
     public void PlayerLoses(){
+        FindObjectOfType<AudioManager>().StopSounds();
+        FindObjectOfType<AudioManager>().PlaySound("Lose");
         Time.timeScale = 0; // Stop game
         maskUI.SetActive(true);
-        gameOverText.gameObject.SetActive(true); // Pop a end menu instead of this
+        gameOverText.SetActive(true); // Pop a end menu instead of this
         _gameOver = true;
+    }
+
+    public void PauseGame()
+    {
+        if (!_gamePaused)
+        {
+            FindObjectOfType<AudioManager>().StopSounds();
+            FindObjectOfType<AudioManager>().PlaySound("Pause");
+            Time.timeScale = 0; // Pause game
+            maskUI.SetActive(true);
+            gamePausedText.SetActive(true);
+            _gamePaused = true;
+        }
+        else
+        {
+            FindObjectOfType<AudioManager>().PlayMusic("Potato");
+            Time.timeScale = 1; // Resume game
+            maskUI.SetActive(false);
+            gamePausedText.SetActive(false);
+            _gamePaused = false;
+        }
+        
     }
 
 }

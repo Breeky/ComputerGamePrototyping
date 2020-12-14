@@ -33,4 +33,9 @@ public class CameraController : MonoBehaviour
     {
         _animator.SetTrigger("LittleShake");
     }
+    
+    public void MediumShake()
+    {
+        _animator.SetTrigger("MediumShake");
+    }
 }

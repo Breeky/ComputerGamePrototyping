@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlanetCoreGFX : MonoBehaviour
 {
-    public GameObject player;
+    public GameObject target;
     public Sprite[] sprites;
     private int spriteID = 0;
     private SpriteRenderer _spriteRenderer;
@@ -40,21 +40,21 @@ public class PlanetCoreGFX : MonoBehaviour
 
     private void Update()
     {
-        _gravityDirection = player.transform.position - transform.position;
+        _gravityDirection = target.transform.position - transform.position;
         
         // Angle & orientation
         float angle = Vector2.Angle(Vector2.up, _gravityDirection);
-        if (player.transform.position.x < transform.position.x)
+        // transform.rotation = Quaternion.Euler(0f, 0f, angle);
+        if (target.transform.position.x > transform.position.x)
         {
-            transform.rotation = Quaternion.Euler(0f, 0f, angle-90);
-            _spriteRenderer.flipX = true;
+            transform.rotation = Quaternion.Euler(0f, 0f, -angle);
         }
         else
         {
-            transform.rotation = Quaternion.Euler(0f, 0f, 90-angle);
-            _spriteRenderer.flipX = false;
+            transform.rotation = Quaternion.Euler(0f, 0f, angle);
         }
 
+        // Position of the leach
         lineRenderer.SetPosition(0, transform.position);
         lineRenderer.SetPosition(1, gameManager.follower.transform.position);
     }

@@ -9,7 +9,7 @@ public class AudioManager : MonoBehaviour
     public Sound[] musics;
     
     // OSC Connexion
-    private OSCTransmitter _transmitter;
+    [SerializeField] private OSCTransmitter _transmitter;
     
     // Puredata
     public int currentIndex = 0;
@@ -33,15 +33,7 @@ public class AudioManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         
         // OSC initialization
-        _transmitter = GetComponent<OSCTransmitter>();
-
-        StartCoroutine(nameof(LateStart));
-    }
-    
-    IEnumerator LateStart() 
-    {
-        yield return new WaitForSeconds(0.5f);
-        PlayMusic("Chunky_Monkey");
+        // _transmitter = GetComponent<OSCTransmitter>();
     }
 
     private void Update()
@@ -115,7 +107,6 @@ public class AudioManager : MonoBehaviour
 
     public void StopSounds()
     {
-        // Play sound
         // Create message
         var message = new OSCMessage("/stop");
         // Populate values.

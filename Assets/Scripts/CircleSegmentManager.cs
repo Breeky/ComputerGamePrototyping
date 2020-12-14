@@ -57,7 +57,7 @@ public class CircleSegmentManager : MonoBehaviour
         planetTop = gameManager.planetTop;
         planetCore = gameManager.planetCore;
         numberLane = gameManager.numberLane;
-        gameOverText = gameManager.gameOverText;
+        gameOverText = gameManager.gameOverText.GetComponent<TextMeshProUGUI>();
 
         GenerateCircleSegments();
         GenerateLineSegmentAndSpawners();
@@ -83,7 +83,7 @@ public class CircleSegmentManager : MonoBehaviour
         planetTop = gameManager.planetTop;
         planetCore = gameManager.planetCore;
         numberLane = gameManager.numberLane;
-        gameOverText = gameManager.gameOverText;
+        gameOverText = gameManager.gameOverText.GetComponent<TextMeshProUGUI>();;
 
         GenerateCircleSegments();
     }
