@@ -499,6 +499,7 @@ MonoBehaviour:
   projectile: {fileID: 8512364830569300270, guid: 839eab331366d5a4a80a95097a7aea4b,
     type: 3}
   follower: {fileID: 507420451}
+  player: {fileID: 313005473}
   maskUI: {fileID: 684114685}
   gameOverText: {fileID: 1486185512}
   gameWonText: {fileID: 583652032}
@@ -780,6 +781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   featherBurst: {fileID: 1751189046}
+  speed: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 256

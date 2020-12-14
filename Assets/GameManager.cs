@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public GameObject planetCore;
     public GameObject projectile;
     public GameObject follower;
+    public GameObject player;
     public GameObject maskUI;
     public GameObject gameOverText;
     public GameObject gameWonText;
@@ -159,9 +160,12 @@ public class GameManager : MonoBehaviour
             // Animation
             cameraController.MediumShake();
             FindObjectOfType<AudioManager>().PlaySound("Punch");
-            
+
+            GameObject[] projectiles = GameObject.FindGameObjectsWithTag("Projectile");
+            foreach (GameObject enemy in projectiles) GameObject.Destroy(enemy);
+
             // Increase some variables
-            speed += 0.5f;
+            player.GetComponent<PlayerController>().speed += 0.5f;
 
             // Reset puzzle
             _circleSegmentManager.reInit();

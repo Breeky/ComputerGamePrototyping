@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Controls")]
     private float jumpForce;
-    private float speed;
+    public float speed;
     private float throwForce;  // For throwing a projectile
     
     [Header("Others")]
