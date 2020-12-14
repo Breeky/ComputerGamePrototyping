@@ -84,6 +84,7 @@ public class CircleSegment : MonoBehaviour
 
                 // ----- Case when a collision has to be handled ----- //
                 Vector2Int coordinatesToRetrieve = other.GetComponent<TransformedProjectileController>().GetNextCollisionCoords();
+                // Debug.Log("Last coucou with coordinates: " + coordinatesToRetrieve.x + " " + coordinatesToRetrieve.y);
                 if (coordinatesToRetrieve.x >= 0){
 
                     // Handle collision only if it is the right segment
@@ -95,7 +96,7 @@ public class CircleSegment : MonoBehaviour
 
                         // Update color Array
                         circleSegmentManager.colorBlocks[coordinatesToRetrieve.x, coordinatesToRetrieve.y] = other.GetComponent<SpriteRenderer>().color;
-
+                        
                         // Ball disppear at the good spot
                         Destroy(other.gameObject);
 
@@ -139,7 +140,11 @@ public class CircleSegment : MonoBehaviour
 
                                     // Manage matching of blocks
                                     circleSegmentManager.ManageMatching(_slice, i+1);
-                                } else {
+                                } else {            
+                                    
+                                    // Debug.Log("coucou");
+                                    circleSegmentManager.colorBlocks[_slice, i+1] = other.GetComponent<SpriteRenderer>().color;
+                                    // Debug.Log("colorBlocks coucou " + circleSegmentManager.colorBlocks[_slice, i+1]);
                                     // Indicate the corresponding layer to game object to handle collision at the right spot
                                     other.GetComponent<TransformedProjectileController>().SetNextCollision(new Vector2Int(_slice, i+1), circleSegmentManager.segmentsOrdered[_slice, i+1].gameObject);
                                 }

@@ -83,7 +83,7 @@ public class CircleSegmentManager : MonoBehaviour
         planetTop = gameManager.planetTop;
         planetCore = gameManager.planetCore;
         numberLane = gameManager.numberLane;
-        gameOverText = gameManager.gameOverText.GetComponent<TextMeshProUGUI>();;
+        gameOverText = gameManager.gameOverText.GetComponent<TextMeshProUGUI>();
 
         GenerateCircleSegments();
     }
@@ -155,7 +155,6 @@ public class CircleSegmentManager : MonoBehaviour
 
         colorBlocks = new Color[nSlice, nLayer]; // Generate 2D array of colors
         segmentsOrdered = new CircleSegment[nSlice, nLayer]; // Generate 2D array of segments
-
         Color[,] colorMapping = CreateInitialMapping(heightFilling, probabilityBlackLastLayer, fillingMode); // Generate initial mapping
 
         for (int i = 0; i < nLayer; i++)
@@ -195,9 +194,32 @@ public class CircleSegmentManager : MonoBehaviour
                 
                 // Color
                 // renderer.color = segmentColors[order % segmentColors.Length]; // Replace by a better chosen color
+
+                /*
+                // Test bug 13_12
+                if((i==1 && j==0) || (i==1 && j==1)){
+                    circleSegment.ChangeColor(segmentColors[1], false);
+                    colorBlocks[j,i] = segmentColors[1];
+                } else if((i==0 && j==0) || (i==3 && j==1) || (i==4 && j==1)){
+                    circleSegment.ChangeColor(segmentColors[2], false);
+                    colorBlocks[j,i] = segmentColors[2];
+                } else if((i==0 && j==1) || (i==2 && j==1)){
+                    circleSegment.ChangeColor(segmentColors[3], false);
+                    colorBlocks[j,i] = segmentColors[3];
+                } else if(i==0 && j==1){
+                    circleSegment.ChangeColor(segmentColors[3], false);
+                    colorBlocks[j,i] = segmentColors[3];
+                } else {
+                    circleSegment.ChangeColor(segmentColors[0], false);
+                    colorBlocks[j,i] = segmentColors[0];
+                }
+                */
+
+
+                
                 circleSegment.ChangeColor(colorMapping[j,i], false);
                 colorBlocks[j,i] = colorMapping[j,i]; // Update color 
-                colorBlocks[j,i] = colorBlocks[j,i];
+                
 
                 order -= 1;
 
@@ -422,16 +444,19 @@ public class CircleSegmentManager : MonoBehaviour
         positionsMatching.Add(new Vector2Int(slice, layer));
 
         // -------------------- Search in all potential directions -------------------- //
+        //Debug.Log("slice, layer: " + slice + " " + layer);
         (counter, positionsMatching) = SearchLeft(slice, layer, colorOfBlock, counter, positionsMatching);
         (counter, positionsMatching) = SearchRight(slice, layer, colorOfBlock, counter, positionsMatching);
         (counter, positionsMatching) = SearchBot(slice, layer, colorOfBlock, counter, positionsMatching);
+
         // There is no need to search to the top of the newly added block
 
         // -------------------- Remove matching blocks -------------------- //
         // Debug.Log("Value of counter after matching check: " + counter);
 
-        /*
+        
         // To debug positionMatching
+        /*
         string result = "positionMatching contents: ";
         foreach (var item in positionsMatching)
         {
@@ -440,12 +465,23 @@ public class CircleSegmentManager : MonoBehaviour
         Debug.Log(result); 
         */
         
+        // Manage a specific case in which one cooridnate cna appear two times in positionsMatching
+        // Remove positions in double in positionsMatching
+        List<Vector2Int> positionsMatching1 = positionsMatching.Distinct().ToList(); 
+        int difference = positionsMatching.Count - positionsMatching1.Count;
+        if (difference > 0){
+            positionsMatching = positionsMatching1;
+            counter -= difference;
+        }
+        // Debug.Log("Size positions matching" + positionsMatching.Count);
+        
         if (counter >=3) {
             HashSet<Vector2Int> movedBlocks;
             movedBlocks = RemoveMatchingBlocks(positionsMatching); 
             
-            /*
+            
             // To debug movedBlocks
+            /*
             string result1 = "movedBlocks contents: ";
             foreach (var item in movedBlocks)
             {
@@ -468,42 +504,57 @@ public class CircleSegmentManager : MonoBehaviour
             // Continue as long as the pile of moved blocks to go through is not empty
             while (movedBlocksPile.Count != 0) {
                 
-                // Load the first list of moved blocks and remove it form the pile
+                // Load the first list of moved blocks and remove it from the pile
                 movedBlocks = movedBlocksPile[0];
                 movedBlocksPile.RemoveAt(0);
                 blacklistMovedBlocks = new HashSet<Vector2Int>();
 
                 // Manage normally the matching
                 foreach (Vector2Int positionToCheck in movedBlocks) {
-                    
+                    // Debug.Log("Checked position: " + positionToCheck);
                     // There is no need to check if there is a matching for a block for which this has already been searched for
                     if (!blacklistMovedBlocks.Contains(positionToCheck)) {
 
                         // Reinitialize variables
                         colorOfBlock = colorBlocks[positionToCheck.x, positionToCheck.y]; // Color to search for the matching
-                        counter = 1; // Counter of number of boxes matching
-                        positionsMatching = new List<Vector2Int>(); // To keep track of the positions of every segment matching
-                        positionsMatching.Add(positionToCheck);
+                        // Debug.Log("Color to search for matching : " + colorOfBlock);
+                        if(colorOfBlock != segmentColors[0]){ // Can have already been updated
+                            counter = 1; // Counter of number of boxes matching
+                            positionsMatching = new List<Vector2Int>(); // To keep track of the positions of every segment matching
+                            positionsMatching.Add(positionToCheck);
 
-                        // Research in all potential directions
-                        (counter, positionsMatching) = SearchLeft(slice, layer, colorOfBlock, counter, positionsMatching);
-                        (counter, positionsMatching) = SearchRight(slice, layer, colorOfBlock, counter, positionsMatching);
-                        (counter, positionsMatching) = SearchBot(slice, layer, colorOfBlock, counter, positionsMatching);
+                            
+                            // Research in all potential directions
+                            (counter, positionsMatching) = SearchLeft(positionToCheck.x, positionToCheck.y, colorOfBlock, counter, positionsMatching);
+                            (counter, positionsMatching) = SearchRight(positionToCheck.x, positionToCheck.y, colorOfBlock, counter, positionsMatching);
+                            (counter, positionsMatching) = SearchBot(positionToCheck.x, positionToCheck.y, colorOfBlock, counter, positionsMatching);
 
-                        // Blacklist (= don't search for a matching involving ...) a moved block if it is part of the current match
-                        if (positionsMatching.Contains(positionToCheck)){
-                            blacklistMovedBlocks.Add(positionToCheck);
-                        }
-                        
-                        // If a new match is found, matching blocks are removed and a new list of moved blocks is added at the end of the pile
-                        if (counter >=3) {
-                            HashSet<Vector2Int> movedBlocksAdded;
-                            movedBlocksAdded = RemoveMatchingBlocks(positionsMatching); 
-                            movedBlocksPile.Add(movedBlocksAdded);
+                            // Blacklist (= don't search for a matching involving ...) a moved block if it is part of the current match
+                            if (positionsMatching.Contains(positionToCheck)){
+                                // Debug.Log("Blacklisted: " + positionToCheck);
+                                blacklistMovedBlocks.Add(positionToCheck);
+                            }
+                            
+                            // Manage a specific case in which one coordinate can appear two times in positionsMatching
+                            // Remove positions in double in positionsMatching
+                            positionsMatching1 = positionsMatching.Distinct().ToList(); 
+                            difference = positionsMatching.Count - positionsMatching1.Count;
+                            if (difference > 0){
+                                positionsMatching = positionsMatching1;
+                                counter -= difference;
+                            }
+                            // Debug.Log("Size positions matching" + positionsMatching.Count);
+
+                            // If a new match is found, matching blocks are removed and a new list of moved blocks is added at the end of the pile
+                            if (counter >=3) {
+                                HashSet<Vector2Int> movedBlocksAdded;
+                                movedBlocksAdded = RemoveMatchingBlocks(positionsMatching); 
+                                movedBlocksPile.Add(movedBlocksAdded);
+                            }
                         }
                     }
                 }
-            }
+            } 
         }
     }
 
@@ -643,7 +694,7 @@ public class CircleSegmentManager : MonoBehaviour
             if (j == -1) {
                 j = nSlice - 1;
             }
-            //Debug.Log("Slice visited Left: " + j);
+            // Debug.Log("Slice visited Left: " + j);
 
         }
 
@@ -730,11 +781,20 @@ public class CircleSegmentManager : MonoBehaviour
         // Sort the list of matching blocks by position
         // The upper layer in a column has to be managed in first
         List<Vector2Int> positionsMatchingSorted = positionsMatching.OrderBy(x => x.x).ThenByDescending(x => x.y).ToList();
-
+       
+        /* string result1 = "positionsMatchingSorted: ";
+            foreach (var item in positionsMatchingSorted)
+            {
+                result1 += item.ToString() + ", ";
+            }
+            Debug.Log(result1); 
+            */
+        
         // List to save position of all moved blocks during the process of removing matching blocks
         HashSet<Vector2Int> movedBlocks = new HashSet<Vector2Int>();
 
         foreach (Vector2Int position in positionsMatchingSorted) {
+            // Debug.Log("Position considered " + position.x + " " + position.y);
 
             // Replace the color of all Matching blocks by black
             colorBlocks[position.x, position.y] = segmentColors[0];
@@ -753,15 +813,17 @@ public class CircleSegmentManager : MonoBehaviour
                         // If the block on top is colored, add it to the HashMap of movedBlocks to search for matching of moved blocks later
                         if (colorBlocks[position.x, i + 1] != segmentColors[0]) {
                             movedBlocks.Add(new Vector2Int(position.x, i));
+                            // Debug.Log("Added to movedBlocks " + new Vector2Int(position.x, i));
                         }
 
                         // Update block color
+                        // Debug.Log("position update color " + position.x + " " + i + " with color " + colorBlocks[position.x, i + 1]);
                         colorBlocks[position.x, i] = colorBlocks[position.x, i + 1];
-                        segmentsOrdered[position.x, i].ChangeColor(colorBlocks[position.x, i + 1]);
+                        segmentsOrdered[position.x, i].ChangeColor(colorBlocks[position.x, i + 1], false);
 
                         // Empty block on top
                         colorBlocks[position.x, i + 1] = segmentColors[0];
-                        segmentsOrdered[position.x, i + 1].ChangeColor(segmentColors[0]);
+                        segmentsOrdered[position.x, i + 1].ChangeColor(segmentColors[0], false);
 
                     }
                 }
