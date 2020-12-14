@@ -9,14 +9,14 @@ public class MainMenu : MonoBehaviour
     public GameObject mainMenu;
     public GameObject levelSelectionMenu;
     public GameObject tutorialMenu;
-    
+
     private void Start()
     {
         Time.timeScale = 1f;
         StartCoroutine(nameof(LateStart));
     }
-    
-    IEnumerator LateStart() 
+
+    IEnumerator LateStart()
     {
         yield return new WaitForSeconds(0.1f);
         FindObjectOfType<AudioManager>().PlayMusic("Chunky_Monkey");
@@ -28,7 +28,7 @@ public class MainMenu : MonoBehaviour
         levelSelectionMenu.SetActive(true);
         mainMenu.SetActive(false);
     }
-    
+
     public void SelectLevel(int level)
     {
         FindObjectOfType<AudioManager>().StopSounds();
@@ -43,7 +43,7 @@ public class MainMenu : MonoBehaviour
         mainMenu.SetActive(false);
         tutorialMenu.SetActive(true);
     }
-    
+
     public void Back()
     {
         FindObjectOfType<AudioManager>().PlaySound("Click1");
@@ -51,12 +51,10 @@ public class MainMenu : MonoBehaviour
         levelSelectionMenu.SetActive(false);
         tutorialMenu.SetActive(false);
     }
-    
-    public void Exit() {
+
+    public void Exit()
+    {
         FindObjectOfType<AudioManager>().StopSounds();
-        if (Application.isEditor)
-            UnityEditor.EditorApplication.isPlaying = false;
-        else
-            Application.Quit();
+        Application.Quit();
     }
 }
